@@ -1,0 +1,26 @@
+---
+- name: Check if golang exists
+  stat:
+    path: /usr/local/go/bin/go
+  register: go_bin
+
+- name: Install golang
+  get_url:
+    url: "{{go_url}}"
+    dest: "/root/build/go-{{go_version}}.tar.gz"
+  register: go_download_result
+  become: true
+  when: go_bin.stat.exists == False
+
+- name: Unarchive go
+  unarchive:
+    src: "/root/build/go-{{go_version}}.tar.gz"
+    dest: /usr/local
+    remote_src: 'yes'
+  become: true
+  when: go_bin.stat.exists == False and go_download_result.state == 'file'
+
+- name: Cleanup
+  file:
+    path: /root/build
+    state: absent

@@ -1,0 +1,6 @@
+---
+- name: Add users
+  user:
+    name: "{{item.name}}"
+    groups: "{{item.groups}}"
+  with_items: "{{users}}"
