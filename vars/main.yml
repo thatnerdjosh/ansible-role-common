@@ -46,6 +46,8 @@ global_go_packages:
   - mvdan.cc/sh/shfmt
 primary_user: jsantos
 primary_group: jsantos
+dep_groups:
+  - docker
 users:
   - name: jsantos
     groups:
