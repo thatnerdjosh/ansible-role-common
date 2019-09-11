@@ -1,3 +1,4 @@
+tags
 *.retry
 */__pycache__
 *.pyc

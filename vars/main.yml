@@ -24,7 +24,8 @@ packages:
   - dnf-plugins-core
   - 'dnf-command(config-manager)'
   - docker-ce
-install_additional: false 
+  - make
+install_additional: false
 additional_packages:
   - "@xfce-desktop-environment"
 nerdfonts_base: "https://github.com/ryanoasis/nerd-fonts"

@@ -1,25 +1,28 @@
 ---
 - name: Add necessary repositories
-  command:
-    dnf config-manager --add-repo "{{item.url}}"
-  with_items: "{{repos}}"
+  yum_repository:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    baseurl: "{{ item.url }}"
+  with_items: "{{ repos }}"
 
 - name: Update package cache
   dnf: update_cache=yes
 
 - name: Install packages
   dnf:
-    name: "{{packages}}"
-    state: latest
+    name: "{{ packages }}"
+    state: installed
 
 - name: Install additional packages
   dnf:
-    name: '{{additional_packages if install_additional else ""}}'
-    state: latest
+    name: '{{ additional_packages if install_additional else "" }}'
+    state: installed
 
 - name: Install pip
-  command:
-    easy_install pip
+  easy_install:
+    name: pip
+    state: present
 
 # TODO: Replace above block with below code once
 # https://github.com/ansible/ansible/pull/39073 merged
@@ -29,51 +32,66 @@
 
 - name: Make necessary directories
   file:
-    path: "{{item.name}}"
+    path: "{{ item.name }}"
     state: directory
-    owner: "{{item.user}}"
-    group: "{{item.group}}"
+    owner: "{{ item.user }}"
+    group: "{{ item.group }}"
   become: true
-  with_items: "{{directories}}"
+  with_items: "{{ directories }}"
 
 - name: Install patched fonts
   get_url:
-    url: "{{nerdfonts_base}}/tree/master/patched-fonts/{{item}}"
-    dest: "~/.local/share/fonts/{{item}}.otf"
-  with_items: "{{nerdfonts}}"
+    url: "{{ nerdfonts_base }}/tree/master/patched-fonts/{{ item }}"
+    dest: "~/.local/share/fonts/{{ item }}.otf"
+  with_items: "{{ nerdfonts }}"
   become: true
-  become_user: "{{primary_user}}"
+  become_user: "{{ primary_user }}"
 
 - name: Pull down git repositories
   git:
-    repo: "{{item.url}}"
-    dest: "{{item.dest}}/{{item.name}}"
-  with_items: "{{git_repos}}"
+    repo: "{{ item.url }}"
+    dest: "{{ item.dest }}/{{ item.name }}"
+    version: "master"
+  with_items: "{{ git_repos }}"
   become: true
-  become_user: "{{primary_user}}"
+  become_user: "{{ primary_user }}"
 
 - name: Setup config files
   file:
     state: link
-    src: "~/development/.files/{{item}}"
-    dest: "~/{{item}}"
+    src: "~/development/.files/{{ item }}"
+    dest: "~/{{ item }}"
     force: 'yes'
-  with_items: "{{config_files}}"
+  with_items: "{{ config_files }}"
   become: true
-  become_user: "{{primary_user}}"
+  become_user: "{{ primary_user }}"
 
 - name: Install vim-plug
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: "~/.vim/autoload/plug.vim"
   become: true
-  become_user: "{{primary_user}}"
+  become_user: "{{ primary_user }}"
+
+- name: Check installed python
+  shell:
+    . ~/.bash_profile && pyenv versions
+  args:
+    executable: /usr/bin/bash
+  register: _result
+  become: true
+  become_user: "{{ primary_user }}"
+  changed_when: false
+  ignore_errors: true
 
 - name: Install Python 3.7.1
   shell:
-    . ~/.bashrc && ~/.pyenv/bin/pyenv install 3.7.1
+    . ~/.bash_profile && pyenv install 3.7.1
+  args:
+    executable: /usr/bin/bash
   become: true
-  become_user: "{{primary_user}}"
+  become_user: "{{ primary_user }}"
+  when: '"3.7.1" not in _result.stdout_lines'
 
 - name: Copy pip requirements
   copy:
@@ -86,22 +104,22 @@
 
 # - name: Install NVM
 #   shell: >
-#     curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+#     curl -o-  | bash
 #   args:
-#     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+#     creates: "{{  ansible_env.HOME  }}/.nvm/nvm.sh"
 #   become: true
-#   become_user: "{{primary_user}}"
-# 
+#   become_user: "{{ primary_user }}"
+#
 # - name: Check if node installed
 #   shell:
 #     . ~/.bashrc && nvm ls stable
 #   register: node_bin
 #   become: true
-#   become_user: "{{primary_user}}"
-# 
+#   become_user: "{{ primary_user }}"
+#
 # - name: Install Node
 #   shell:
 #     . ~/.bashrc && nvm install stable
-#   when: node_bin.rc != 0 
+#   when: node_bin.rc != 0
 #   become: true
-#   become_user: "{{primary_user}}"
+#   become_user: "{{ primary_user }}"

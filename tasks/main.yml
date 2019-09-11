@@ -1,5 +1,5 @@
 ---
 - include_tasks: users.yml
-- include_tasks: dependencies_{{ansible_os_family | lower}}.yml
+- include_tasks: dependencies_{{ ansible_os_family | lower }}.yml
 - include_tasks: services.yml
 - include_tasks: golang.yml
