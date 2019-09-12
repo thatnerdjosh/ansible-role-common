@@ -27,6 +27,7 @@ packages:
   - make
   - sudo
   - tmux
+  - ctags
 remove_packages: []
 install_additional: false
 additional_packages:
