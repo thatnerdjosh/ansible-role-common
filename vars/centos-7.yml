@@ -1,0 +1,32 @@
+---
+repos:
+  - url: https://download.docker.com/linux/centos/docker-ce.repo
+    name: docker-ce
+    description: Repository for Docker CE
+services:
+  - name: docker
+    enabled: true
+    state: started
+packages:
+  - git
+  - gcc
+  - zlib-devel
+  - vim
+  - python3-devel
+  - python2-devel
+  - libffi-devel
+  - openssl-devel
+  - bzip2-devel
+  - readline-devel
+  - redhat-rpm-config
+  - python-setuptools
+  - libselinux-python
+  - docker-ce
+  - make
+  - sudo
+  - tmux
+  - ctags
+remove_packages: []
+install_additional: false
+additional_packages:
+  - "@xfce-desktop-environment"

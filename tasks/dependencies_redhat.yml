@@ -1,23 +1,38 @@
 ---
+# TODO: Port to my yum_config_manager module once built
+- name: Install dnf plugins
+  package:
+    name: "{{ item }}"
+  with_items: "{{ dnf_plugins }}"
+  when: install_dnf_plugins
+
 - name: Add necessary repositories
-  yum_repository:
-    name: "{{ item.name }}"
-    description: "{{ item.description }}"
-    baseurl: "{{ item.url }}"
+  shell: "yum-config-manager --add-repo={{ item.url }}"
+  args:
+    creates: /etc/yum.repos.d/docker-ce.repo
   with_items: "{{ repos }}"
+  when: not install_dnf_plugins
+
+- name: Add necessary repositories
+  shell: "dnf config-manager --add-repo={{ item.url }}"
+  args:
+    creates: /etc/yum.repos.d/docker-ce.repo
+  with_items: "{{ repos }}"
+  when: install_dnf_plugins
 
 - name: Update package cache
-  dnf: update_cache=yes
+  package: update_cache=yes
 
 - name: Install packages
-  dnf:
+  package:
     name: "{{ packages }}"
     state: installed
 
 - name: Install additional packages
-  dnf:
-    name: '{{ additional_packages if install_additional else "" }}'
+  package:
+    name: '{{ additional_packages }}'
     state: installed
+  when: install_additional
 
 - name: Install pip
   easy_install:
