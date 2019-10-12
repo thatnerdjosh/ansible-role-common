@@ -38,6 +38,8 @@ users:
   - name: "{{primary_user}}"
     groups:
       - docker
+    authorized_keys: []
+    home: "/home/{{primary_user}}"
 directories:
   - name: /home/{{primary_user}}/.local/share/fonts/
     user: "{{primary_user}}"
