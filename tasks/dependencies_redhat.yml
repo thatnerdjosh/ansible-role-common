@@ -106,7 +106,7 @@
     executable: /usr/bin/bash
   become: true
   become_user: "{{ primary_user }}"
-  when: '"3.7.1" not in _result.stderr_lines'
+  when: '"3.7.1" not in _result.stdout_lines | map("trim") | list'
 
 - name: Copy pip requirements
   copy:
