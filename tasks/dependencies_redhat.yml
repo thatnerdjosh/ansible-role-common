@@ -12,16 +12,16 @@
   when: not install_dnf_plugins
 
 - name: Add necessary repositories
-  shell: "yum-config-manager --add-repo={{ item.url }}"
+  command: "yum-config-manager --add-repo={{ item.url }}"
   args:
-    creates: /etc/yum.repos.d/docker-ce.repo
+    creates: "/etc/yum.repos.d/{{ item.name }}.repo"
   with_items: "{{ repos }}"
   when: not install_dnf_plugins
 
 - name: Add necessary repositories
-  shell: "dnf config-manager --add-repo={{ item.url }}"
+  command: "dnf config-manager --add-repo={{ item.url }}"
   args:
-    creates: /etc/yum.repos.d/docker-ce.repo
+    creates: "/etc/yum.repos.d/{{ item.name }}.repo"
   with_items: "{{ repos }}"
   when: install_dnf_plugins
 
@@ -38,17 +38,6 @@
     name: '{{ additional_packages }}'
     state: installed
   when: install_additional
-
-- name: Install pip
-  easy_install:
-    name: pip
-    state: present
-
-# TODO: Replace above block with below code once
-# https://github.com/ansible/ansible/pull/39073 merged
-# easy_install:
-#   name: pip
-#   state: latest
 
 - name: Make necessary directories
   file:

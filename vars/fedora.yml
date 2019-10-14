@@ -13,14 +13,14 @@ packages:
   - zlib-devel
   - vim
   - python3-devel
-  - python2-devel
   - libffi-devel
   - openssl-devel
   - bzip2-devel
   - readline-devel
   - redhat-rpm-config
-  - python-setuptools
-  - libselinux-python
+  - python3-setuptools
+  - python3-pip
+  - python3-libselinux
   - dnf-plugins-core
   - docker-ce
   - make

@@ -1,4 +1,5 @@
 ---
+install_dnf_plugins: true
 repos:
   - url: https://download.docker.com/linux/centos/docker-ce.repo
     name: docker-ce
@@ -19,9 +20,11 @@ packages:
   - bzip2-devel
   - readline-devel
   - redhat-rpm-config
-  - python-setuptools
-  - python-pip
-  - libselinux-python
+  - python3-setuptools
+  - python3-libselinux
+  - python3-pip
+  # Remove below containerd once a package exists in RHEL8
+  - https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
   - docker-ce
   - make
   - sudo

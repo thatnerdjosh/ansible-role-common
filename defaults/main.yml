@@ -1,3 +1,4 @@
+---
 install_dnf_plugins: false
 dnf_plugins:
   - dnf-command(config-manager)
