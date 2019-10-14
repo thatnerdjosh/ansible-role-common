@@ -6,6 +6,11 @@
   with_items: "{{ dnf_plugins }}"
   when: install_dnf_plugins
 
+- name: Install yum-utils
+  package:
+    name: yum-utils
+    when: not install_dnf_plugins
+
 - name: Add necessary repositories
   shell: "yum-config-manager --add-repo={{ item.url }}"
   args:
@@ -106,7 +111,7 @@
     executable: /usr/bin/bash
   become: true
   become_user: "{{ primary_user }}"
-  when: '"3.7.1" not in _result.stdout_lines | map("trim") | list'
+  when: '"3.7.1" not in _result.stdout_lines'
 
 - name: Copy pip requirements
   copy:
