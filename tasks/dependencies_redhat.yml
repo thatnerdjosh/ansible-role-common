@@ -9,7 +9,7 @@
 - name: Install yum-utils
   package:
     name: yum-utils
-    when: not install_dnf_plugins
+  when: not install_dnf_plugins
 
 - name: Add necessary repositories
   shell: "yum-config-manager --add-repo={{ item.url }}"
