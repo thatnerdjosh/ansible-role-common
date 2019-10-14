@@ -18,6 +18,12 @@
   become: true
   when: not go_bin.stat.exists or go_version|string not in go_version_output.stdout
 
+- name: Remove old go
+  file:
+    path: /usr/local/go
+    state: absent
+  when: go_download_result.state == 'file'
+
 - name: Unarchive go
   unarchive:
     src: "/root/build/go-{{ go_version }}.tar.gz"
