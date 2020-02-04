@@ -64,10 +64,6 @@ git_config:
     value: "Josh Santos"
 dep_groups:
   - docker
-users:
-  - name: "{{primary_user}}"
-    groups:
-      - docker
 directories:
   - name: /home/{{primary_user}}/.local/share/fonts/
     user: "{{primary_user}}"
