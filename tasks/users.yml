@@ -17,3 +17,11 @@
     - "{{ users }}"
     - "authorized_keys"
   ignore_errors: true
+- name: Create public ssh key files
+  copy:
+    dest: "{{ item.0.home }}/.ssh/{{ item.1.name }}"
+    content: "{{ item.1.content }}"
+  with_subelements:
+    - "{{ users }}"
+    - "pubkeys"
+    - skip_missing: true

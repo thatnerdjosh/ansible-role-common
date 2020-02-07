@@ -40,6 +40,7 @@ users:
     groups:
       - docker
     authorized_keys: []
+    pubkeys: [] # { name: key_name, content: "ssh-rsa..." }
     home: "/home/{{primary_user}}"
 directories:
   - name: /home/{{primary_user}}/.local/share/fonts/
