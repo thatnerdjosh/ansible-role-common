@@ -6,3 +6,9 @@
     enabled: "{{ item.enabled }}"
   with_items: "{{ services }}"
   ignore_errors: true
+- name: Setup XRDP
+  systemd:
+    name: xrdp
+    state: started
+    enabled: true
+  when: install_additional

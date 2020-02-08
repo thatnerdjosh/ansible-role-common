@@ -26,6 +26,7 @@ go_version: 1.13
 go_url: https://dl.google.com/go/go{{go_version}}.linux-amd64.tar.gz
 global_go_packages:
   - mvdan.cc/sh/shfmt
+install_additional: false
 primary_user: jsantos
 primary_group: jsantos
 git_config:

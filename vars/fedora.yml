@@ -29,9 +29,10 @@ packages:
   - ctags
 remove_packages: []
 install_dnf_plugins: true
-install_additional: false
 additional_packages:
   - "@xfce-desktop-environment"
+  - "xrdp"
+  - "mosh"
 nerdfonts_base: "https://github.com/ryanoasis/nerd-fonts"
 nerdfonts:
   - "DejaVuSansMono"
@@ -75,6 +76,7 @@ directories:
     user: "{{primary_user}}"
     group: "{{primary_group}}"
 config_files:
+  - .aliases
   - .bashrc
   - .bash_profile
   - .bash_aliases
