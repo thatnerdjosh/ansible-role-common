@@ -29,7 +29,6 @@ packages:
   - ctags
 remove_packages: []
 install_dnf_plugins: true
-install_additional: false
 additional_packages:
   - "@xfce-desktop-environment"
   - "xrdp"
