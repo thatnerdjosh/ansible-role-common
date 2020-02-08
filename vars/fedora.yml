@@ -36,22 +36,6 @@ additional_packages:
 nerdfonts_base: "https://github.com/ryanoasis/nerd-fonts"
 nerdfonts:
   - "DejaVuSansMono"
-git_repos:
-  - url: https://github.com/python/peps.git
-    dest: ~/development
-    name: peps
-  - url: https://github.com/NerdsvilleCEO/.files.git
-    dest: ~/development
-    name: .files
-  - url: https://github.com/pyenv/pyenv.git
-    dest: "~"
-    name: .pyenv
-  - url: https://github.com/pyenv/pyenv-virtualenv.git
-    dest: ~/.pyenv/plugins
-    name: pyenv-virtualenv
-  - url: https://github.com/tmux-plugins/tpm
-    dest: ~/.tmux/plugins
-    name: tpm
 go_version: 1.11.4
 go_url: https://dl.google.com/go/go{{go_version}}.linux-amd64.tar.gz
 global_go_packages:
