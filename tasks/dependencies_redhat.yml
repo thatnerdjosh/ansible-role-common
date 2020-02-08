@@ -66,7 +66,7 @@
   git:
     repo: "{{ item.url }}"
     dest: "{{ item.dest }}/{{ item.name }}"
-    version: "master"
+    version: "{{ item.branch | default('master') }}"
   with_items: "{{ git_repos }}"
   become: true
   become_user: "{{ primary_user }}"

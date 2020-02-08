@@ -22,6 +22,9 @@ git_repos:
   - url: https://github.com/tmux-plugins/tpm
     dest: ~/.tmux/plugins
     name: tpm
+  - url: https://github.com/asdf-vm/asdf
+    dest: ~/.asdf
+    name: asdf
 go_version: 1.13
 go_url: https://dl.google.com/go/go{{go_version}}.linux-amd64.tar.gz
 global_go_packages:
